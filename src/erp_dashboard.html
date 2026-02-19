@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en" class="remember-theme">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>ERP Suite Dashboard | Codebase</title>
+    <link rel="shortcut icon" href="assets/media/favicons/favicon.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="assets/media/favicons/favicon-192x192.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="assets/media/favicons/apple-touch-icon-180x180.png"
+    />
+    <link rel="stylesheet" id="css-main" href="assets/css/codebase.min.css" />
+    <script src="assets/js/setTheme.js"></script>
+    <style>
+      .erp-hero {
+        background: linear-gradient(
+          120deg,
+          rgba(23, 57, 133, 0.95),
+          rgba(41, 121, 255, 0.82)
+        );
+      }
+      .erp-nav-badge {
+        min-width: 1.35rem;
+      }
+      .kpi-card {
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .mini-trend {
+        height: 54px;
+        border-radius: 0.5rem;
+        background: linear-gradient(
+          180deg,
+          rgba(13, 110, 253, 0.25),
+          rgba(13, 110, 253, 0)
+        );
+      }
+      .pipeline-step {
+        border-left: 3px solid var(--bs-primary);
+        padding-left: 0.75rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="page-container"
+      class="sidebar-o sidebar-dark side-scroll page-header-fixed enable-page-overlay main-content-boxed"
+    >
+      <nav id="sidebar" aria-label="Primary Navigation">
+        <div class="content-header bg-black-10">
+          <a class="fw-semibold text-white" href="erp_dashboard.html">
+            <i class="fa fa-cubes text-primary me-1"></i>
+            Northstar ERP
+          </a>
+          <button
+            type="button"
+            class="btn btn-sm btn-alt-danger d-lg-none"
+            data-toggle="layout"
+            data-action="sidebar_close"
+          >
+            <i class="fa fa-times"></i>
+          </button>
+        </div>
+
+        <div class="js-sidebar-scroll">
+          <div class="content-side">
+            <ul class="nav-main">
+              <li class="nav-main-heading">Core</li>
+              <li class="nav-main-item">
+                <a class="nav-main-link active" href="#dashboard"
+                  ><i class="nav-main-link-icon fa fa-gauge-high"></i
+                  ><span class="nav-main-link-name"
+                    >Executive Dashboard</span
+                  ></a
+                >
+              </li>
+              <li class="nav-main-item">
+                <a class="nav-main-link" href="#workspace"
+                  ><i class="nav-main-link-icon fa fa-grid-2"></i
+                  ><span class="nav-main-link-name">Workspace</span></a
+                >
+              </li>
+
+              <li class="nav-main-heading">Operations</li>
+              <li class="nav-main-item">
+                <a class="nav-main-link" href="#supply"
+                  ><i class="nav-main-link-icon fa fa-truck-fast"></i
+                  ><span class="nav-main-link-name">Supply Chain</span
+                  ><span
+                    class="nav-main-link-badge badge rounded-pill bg-warning text-dark erp-nav-badge"
+                    >5</span
+                  ></a
+                >
+              </li>
+              <li class="nav-main-item">
+                <a class="nav-main-link" href="#manufacturing"
+                  ><i class="nav-main-link-icon fa fa-industry"></i
+                  ><span class="nav-main-link-name">Manufacturing</span></a
+                >
+              </li>
+              <li class="nav-main-item">
+                <a class="nav-main-link" href="#inventory"
+                  ><i class="nav-main-link-icon fa fa-boxes-stacked"></i
+                  ><span class="nav-main-link-name">Inventory</span></a
+                >
+              </li>
+
+              <li class="nav-main-heading">Commercial</li>
+              <li class="nav-main-item">
+                <a class="nav-main-link" href="#sales"
+                  ><i class="nav-main-link-icon fa fa-chart-line"></i
+                  ><span class="nav-main-link-name">Sales</span></a
+                >
+              </li>
+              <li class="nav-main-item">
+                <a class="nav-main-link" href="#crm"
+                  ><i class="nav-main-link-icon fa fa-people-group"></i
+                  ><span class="nav-main-link-name">CRM</span
+                  ><span
+                    class="nav-main-link-badge badge rounded-pill bg-info erp-nav-badge"
+                    >12</span
+                  ></a
+                >
+              </li>
+
+              <li class="nav-main-heading">Finance</li>
+              <li class="nav-main-item">
+                <a class="nav-main-link" href="#finance"
+                  ><i class="nav-main-link-icon fa fa-wallet"></i
+                  ><span class="nav-main-link-name">General Ledger</span></a
+                >
+              </li>
+              <li class="nav-main-item">
+                <a class="nav-main-link" href="#payables"
+                  ><i class="nav-main-link-icon fa fa-file-invoice-dollar"></i
+                  ><span class="nav-main-link-name"
+                    >Payables & Receivables</span
+                  ></a
+                >
+              </li>
+
+              <li class="nav-main-heading">People</li>
+              <li class="nav-main-item">
+                <a class="nav-main-link" href="#hr"
+                  ><i class="nav-main-link-icon fa fa-user-gear"></i
+                  ><span class="nav-main-link-name">HR & Payroll</span></a
+                >
+              </li>
+              <li class="nav-main-item">
+                <a class="nav-main-link" href="#it"
+                  ><i class="nav-main-link-icon fa fa-shield-halved"></i
+                  ><span class="nav-main-link-name">Admin & Security</span></a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <header id="page-header">
+        <div class="content-header">
+          <div>
+            <button
+              type="button"
+              class="btn btn-alt-secondary me-1 d-lg-none"
+              data-toggle="layout"
+              data-action="sidebar_toggle"
+            >
+              <i class="fa fa-bars"></i>
+            </button>
+            <span class="fw-semibold">Global Operations Console</span>
+          </div>
+          <div class="d-flex gap-2">
+            <button class="btn btn-alt-primary">
+              <i class="fa fa-filter me-1"></i>Saved Views
+            </button>
+            <button class="btn btn-primary">
+              <i class="fa fa-plus me-1"></i>Create
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main id="main-container">
+        <div class="content" id="dashboard">
+          <div class="block block-rounded overflow-hidden mb-3 erp-hero">
+            <div class="block-content block-content-full py-4">
+              <div
+                class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3"
+              >
+                <div>
+                  <p class="text-white-75 fw-medium text-uppercase fs-sm mb-1">
+                    Q1 Operating Pulse
+                  </p>
+                  <h1 class="h3 text-white mb-1">
+                    Good morning, Operations Team
+                  </h1>
+                  <p class="text-white-75 mb-0">
+                    Revenue is up 8.9% month-over-month while manufacturing
+                    cycle time dropped 11%.
+                  </p>
+                </div>
+                <div class="d-flex gap-2">
+                  <button class="btn btn-light">
+                    <i class="fa fa-bolt me-1"></i>Run Planner
+                  </button>
+                  <button class="btn btn-alt-light">
+                    <i class="fa fa-share-nodes me-1"></i>Share Snapshot
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row g-3 mb-3" id="workspace">
+            <div class="col-md-6 col-xl-3">
+              <div class="block block-rounded kpi-card mb-0">
+                <div class="block-content block-content-full">
+                  <div class="fs-sm text-muted">Net Revenue (MTD)</div>
+                  <div class="fs-3 fw-bold">$2.84M</div>
+                  <div class="text-success fs-sm">
+                    <i class="fa fa-arrow-up me-1"></i>+8.9%
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+              <div class="block block-rounded kpi-card mb-0">
+                <div class="block-content block-content-full">
+                  <div class="fs-sm text-muted">OTIF Delivery</div>
+                  <div class="fs-3 fw-bold">96.2%</div>
+                  <div class="text-success fs-sm">
+                    <i class="fa fa-arrow-up me-1"></i>+1.4 pts
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+              <div class="block block-rounded kpi-card mb-0">
+                <div class="block-content block-content-full">
+                  <div class="fs-sm text-muted">Cash Conversion Cycle</div>
+                  <div class="fs-3 fw-bold">38 days</div>
+                  <div class="text-success fs-sm">
+                    <i class="fa fa-arrow-down me-1"></i>-3 days
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+              <div class="block block-rounded kpi-card mb-0">
+                <div class="block-content block-content-full">
+                  <div class="fs-sm text-muted">Open Exceptions</div>
+                  <div class="fs-3 fw-bold text-warning">17</div>
+                  <div class="text-muted fs-sm">5 require action today</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row g-3" id="supply">
+            <div class="col-xl-8">
+              <div class="block block-rounded h-100" id="manufacturing">
+                <div class="block-header block-header-default">
+                  <h3 class="block-title">Cross-Functional Health</h3>
+                </div>
+                <div class="block-content">
+                  <div class="row g-3">
+                    <div class="col-md-6" id="sales">
+                      <div class="p-3 bg-body-light rounded">
+                        <div class="d-flex justify-content-between mb-2">
+                          <strong>Sales Pipeline</strong
+                          ><span class="badge bg-success">Healthy</span>
+                        </div>
+                        <div class="mini-trend"></div>
+                        <p class="fs-sm text-muted mt-2 mb-0">
+                          $4.1M weighted pipeline · 24 opportunities in closing
+                          stage.
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-md-6" id="inventory">
+                      <div class="p-3 bg-body-light rounded">
+                        <div class="d-flex justify-content-between mb-2">
+                          <strong>Inventory Position</strong
+                          ><span class="badge bg-warning text-dark">Watch</span>
+                        </div>
+                        <div class="mini-trend"></div>
+                        <p class="fs-sm text-muted mt-2 mb-0">
+                          5 SKUs below safety stock and 2 excess items over 90
+                          days.
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-md-6" id="finance">
+                      <div class="p-3 bg-body-light rounded">
+                        <div class="d-flex justify-content-between mb-2">
+                          <strong>Finance Control</strong
+                          ><span class="badge bg-info">Stable</span>
+                        </div>
+                        <div class="mini-trend"></div>
+                        <p class="fs-sm text-muted mt-2 mb-0">
+                          Close readiness 92% complete · no blocked
+                          reconciliations.
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-md-6" id="hr">
+                      <div class="p-3 bg-body-light rounded">
+                        <div class="d-flex justify-content-between mb-2">
+                          <strong>People & Capacity</strong
+                          ><span class="badge bg-primary">Balanced</span>
+                        </div>
+                        <div class="mini-trend"></div>
+                        <p class="fs-sm text-muted mt-2 mb-0">
+                          Plant utilization 84% and labor variance within target
+                          range.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-4">
+              <div class="block block-rounded mb-3" id="payables">
+                <div class="block-header block-header-default">
+                  <h3 class="block-title">Approvals Queue</h3>
+                </div>
+                <div class="block-content">
+                  <div class="pipeline-step mb-3">
+                    <div class="fw-semibold">
+                      Supplier invoice batch #AP-2941
+                    </div>
+                    <div class="fs-sm text-muted">
+                      $64,300 awaiting 2nd-level approval
+                    </div>
+                  </div>
+                  <div class="pipeline-step mb-3">
+                    <div class="fw-semibold">CapEx request #IT-118</div>
+                    <div class="fs-sm text-muted">
+                      Warehouse scanners upgrade · $18,000
+                    </div>
+                  </div>
+                  <div class="pipeline-step">
+                    <div class="fw-semibold">Discount override #SO-8823</div>
+                    <div class="fs-sm text-muted">
+                      Regional approval pending · 2h SLA left
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="block block-rounded" id="crm">
+                <div class="block-header block-header-default">
+                  <h3 class="block-title">Main Nav Quick Access</h3>
+                </div>
+                <div class="block-content">
+                  <div class="d-flex flex-wrap gap-2" id="it">
+                    <span class="badge bg-primary">Order-to-Cash</span>
+                    <span class="badge bg-secondary">Procure-to-Pay</span>
+                    <span class="badge bg-success">Plan-to-Produce</span>
+                    <span class="badge bg-info text-dark">Hire-to-Retire</span>
+                    <span class="badge bg-warning text-dark"
+                      >Record-to-Report</span
+                    >
+                    <span class="badge bg-danger">Security Center</span>
+                  </div>
+                  <p class="fs-sm text-muted mt-3 mb-0">
+                    Use the left navigation as your ERP shell; this dashboard
+                    acts as the command center for each business stream.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="assets/js/codebase.app.min.js"></script>
+  </body>
+</html>
