@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en" class="remember-theme">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Katana MRP Clone | Codebase</title>
+    <link rel="shortcut icon" href="assets/media/favicons/favicon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/media/favicons/favicon-192x192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/media/favicons/apple-touch-icon-180x180.png">
+    <link rel="stylesheet" id="css-main" href="assets/css/codebase.min.css">
+    <script src="assets/js/setTheme.js"></script>
+    <style>
+      .timeline-item { border-left: 3px solid var(--bs-primary); padding-left: .75rem; margin-bottom: .75rem; }
+      .status-dot { width: .55rem; height: .55rem; border-radius: 50%; display: inline-block; }
+      .status-open { background: var(--bs-warning); }
+      .status-progress { background: var(--bs-info); }
+      .status-ready { background: var(--bs-success); }
+    </style>
+  </head>
+  <body>
+    <div id="page-container" class="sidebar-o sidebar-dark enable-page-overlay side-scroll page-header-fixed main-content-boxed">
+      <nav id="sidebar" aria-label="Primary Navigation">
+        <div class="sidebar-content">
+          <div class="content-header bg-black-10">
+            <a class="fw-bold tracking-wide text-white" href="katana_mrp_clone.html">
+              <i class="fa fa-industry text-primary me-1"></i>
+              Katana Clone
+            </a>
+            <button type="button" class="btn btn-sm btn-alt-danger d-lg-none" data-toggle="layout" data-action="sidebar_close">
+              <i class="fa fa-times"></i>
+            </button>
+          </div>
+          <div class="js-sidebar-scroll">
+            <div class="content-side">
+              <ul class="nav-main">
+                <li class="nav-main-item"><a class="nav-main-link active" href="#overview"><i class="nav-main-link-icon fa fa-chart-line"></i><span class="nav-main-link-name">Overview</span></a></li>
+                <li class="nav-main-item"><a class="nav-main-link" href="#inventory"><i class="nav-main-link-icon fa fa-boxes-stacked"></i><span class="nav-main-link-name">Inventory</span></a></li>
+                <li class="nav-main-item"><a class="nav-main-link" href="#manufacturing"><i class="nav-main-link-icon fa fa-gears"></i><span class="nav-main-link-name">Manufacturing</span></a></li>
+                <li class="nav-main-item"><a class="nav-main-link" href="#purchasing"><i class="nav-main-link-icon fa fa-cart-plus"></i><span class="nav-main-link-name">Purchasing</span></a></li>
+                <li class="nav-main-item"><a class="nav-main-link" href="#sales"><i class="nav-main-link-icon fa fa-file-invoice-dollar"></i><span class="nav-main-link-name">Sales</span></a></li>
+                <li class="nav-main-item"><a class="nav-main-link" href="#shop-floor"><i class="nav-main-link-icon fa fa-list-check"></i><span class="nav-main-link-name">Shop Floor</span></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <header id="page-header">
+        <div class="content-header">
+          <div>
+            <button type="button" class="btn btn-alt-secondary me-1 d-lg-none" data-toggle="layout" data-action="sidebar_toggle">
+              <i class="fa fa-bars"></i>
+            </button>
+            <span class="fw-semibold">Katana-style Manufacturing ERP</span>
+          </div>
+          <div>
+            <button class="btn btn-primary"><i class="fa fa-plus me-1"></i>New Production Order</button>
+          </div>
+        </div>
+      </header>
+
+      <main id="main-container">
+        <div class="content" id="overview">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="h3 mb-0">Operations Dashboard</h1>
+            <small class="text-muted">Live sandbox data</small>
+          </div>
+          <div class="row">
+            <div class="col-md-3"><div class="block block-rounded"><div class="block-content block-content-full"><div class="fs-sm text-muted">MRP Alerts</div><div class="fs-2 fw-bold" id="kpi-alerts">0</div></div></div></div>
+            <div class="col-md-3"><div class="block block-rounded"><div class="block-content block-content-full"><div class="fs-sm text-muted">Open Manufacturing Orders</div><div class="fs-2 fw-bold" id="kpi-mos">0</div></div></div></div>
+            <div class="col-md-3"><div class="block block-rounded"><div class="block-content block-content-full"><div class="fs-sm text-muted">Late Sales Orders</div><div class="fs-2 fw-bold" id="kpi-late">0</div></div></div></div>
+            <div class="col-md-3"><div class="block block-rounded"><div class="block-content block-content-full"><div class="fs-sm text-muted">Inventory Value</div><div class="fs-2 fw-bold" id="kpi-value">$0</div></div></div></div>
+          </div>
+
+          <div class="row" id="inventory">
+            <div class="col-xl-7">
+              <div class="block block-rounded">
+                <div class="block-header block-header-default"><h3 class="block-title">Inventory & Reorder Suggestions</h3></div>
+                <div class="block-content">
+                  <div class="table-responsive">
+                    <table class="table table-striped table-vcenter">
+                      <thead><tr><th>SKU</th><th>On Hand</th><th>Allocated</th><th>Safety</th><th>To Reorder</th></tr></thead>
+                      <tbody id="inventory-table"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-5" id="manufacturing">
+              <div class="block block-rounded">
+                <div class="block-header block-header-default"><h3 class="block-title">Production Timeline</h3></div>
+                <div class="block-content" id="timeline"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" id="purchasing">
+            <div class="col-xl-6">
+              <div class="block block-rounded">
+                <div class="block-header block-header-default"><h3 class="block-title">Purchase Orders</h3></div>
+                <div class="block-content"><div class="table-responsive"><table class="table table-bordered table-vcenter"><thead><tr><th>PO</th><th>Vendor</th><th>ETA</th><th>Status</th></tr></thead><tbody id="po-table"></tbody></table></div></div>
+              </div>
+            </div>
+            <div class="col-xl-6" id="sales">
+              <div class="block block-rounded">
+                <div class="block-header block-header-default"><h3 class="block-title">Sales Orders</h3></div>
+                <div class="block-content"><div class="table-responsive"><table class="table table-bordered table-vcenter"><thead><tr><th>SO</th><th>Customer</th><th>Ship Date</th><th>Status</th></tr></thead><tbody id="so-table"></tbody></table></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="block block-rounded" id="shop-floor">
+            <div class="block-header block-header-default"><h3 class="block-title">Shop Floor Priorities</h3></div>
+            <div class="block-content">
+              <div class="row" id="shop-floor-cards"></div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="assets/js/codebase.app.min.js"></script>
+    <script>
+      const inventory = [
+        { sku: 'RM-ALU-001', onHand: 180, allocated: 120, safety: 80, unitCost: 3.5 },
+        { sku: 'RM-SCR-004', onHand: 1200, allocated: 990, safety: 300, unitCost: 0.06 },
+        { sku: 'WIP-FRM-022', onHand: 60, allocated: 55, safety: 40, unitCost: 12.4 },
+        { sku: 'FG-DESK-900', onHand: 24, allocated: 28, safety: 20, unitCost: 210 }
+      ];
+
+      const manufacturingOrders = [
+        { id: 'MO-2041', item: 'Desk Frame', due: '2026-02-24', progress: 70, status: 'In progress' },
+        { id: 'MO-2042', item: 'Drawer Kit', due: '2026-02-25', progress: 40, status: 'Waiting material' },
+        { id: 'MO-2043', item: 'Packaging Set', due: '2026-02-22', progress: 95, status: 'QC check' }
+      ];
+
+      const purchaseOrders = [
+        { id: 'PO-7718', vendor: 'North Steel Ltd.', eta: '2026-02-21', status: 'Open' },
+        { id: 'PO-7721', vendor: 'Fasteners Co.', eta: '2026-02-20', status: 'Receiving' },
+        { id: 'PO-7724', vendor: 'Polymers Inc.', eta: '2026-02-26', status: 'Draft' }
+      ];
+
+      const salesOrders = [
+        { id: 'SO-5103', customer: 'Brickline Retail', ship: '2026-02-20', status: 'Late' },
+        { id: 'SO-5109', customer: 'Apex Workspace', ship: '2026-02-23', status: 'Ready' },
+        { id: 'SO-5111', customer: 'Horizon Office', ship: '2026-02-25', status: 'In production' }
+      ];
+
+      const shopFloor = [
+        { station: 'Cutting', task: 'Desk Frame batch #2041', owner: 'Marta P.', eta: '2h' },
+        { station: 'Assembly', task: 'Drawer Kit batch #2042', owner: 'Jules R.', eta: '4h' },
+        { station: 'Packing', task: 'SO-5109 prepack', owner: 'Sam N.', eta: '1h' }
+      ];
+
+      const reorderCount = inventory.filter((item) => item.onHand - item.allocated < item.safety).length;
+      const inventoryValue = inventory.reduce((sum, item) => sum + item.onHand * item.unitCost, 0);
+      document.getElementById('kpi-alerts').textContent = reorderCount;
+      document.getElementById('kpi-mos').textContent = manufacturingOrders.length;
+      document.getElementById('kpi-late').textContent = salesOrders.filter((so) => so.status === 'Late').length;
+      document.getElementById('kpi-value').textContent = `$${inventoryValue.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
+
+      const inventoryRows = inventory.map((item) => {
+        const available = item.onHand - item.allocated;
+        const reorder = Math.max(0, item.safety * 2 - available);
+        return `<tr><td class="fw-semibold">${item.sku}</td><td>${item.onHand}</td><td>${item.allocated}</td><td>${item.safety}</td><td><span class="badge ${reorder > 0 ? 'bg-danger' : 'bg-success'}">${reorder}</span></td></tr>`;
+      }).join('');
+      document.getElementById('inventory-table').innerHTML = inventoryRows;
+
+      document.getElementById('timeline').innerHTML = manufacturingOrders.map((mo) => `
+        <div class="timeline-item">
+          <div class="d-flex justify-content-between"><strong>${mo.id}</strong><small class="text-muted">Due ${mo.due}</small></div>
+          <div class="text-muted fs-sm mb-2">${mo.item} · ${mo.status}</div>
+          <div class="progress" role="progressbar" aria-label="${mo.id} progress" aria-valuenow="${mo.progress}" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar" style="width: ${mo.progress}%">${mo.progress}%</div>
+          </div>
+        </div>`).join('');
+
+      document.getElementById('po-table').innerHTML = purchaseOrders.map((po) => `<tr><td>${po.id}</td><td>${po.vendor}</td><td>${po.eta}</td><td>${po.status}</td></tr>`).join('');
+      document.getElementById('so-table').innerHTML = salesOrders.map((so) => {
+        const className = so.status === 'Late' ? 'status-open' : so.status === 'Ready' ? 'status-ready' : 'status-progress';
+        return `<tr><td>${so.id}</td><td>${so.customer}</td><td>${so.ship}</td><td><span class="status-dot ${className} me-2"></span>${so.status}</td></tr>`;
+      }).join('');
+
+      document.getElementById('shop-floor-cards').innerHTML = shopFloor.map((task) => `
+        <div class="col-md-4">
+          <div class="block block-rounded block-bordered mb-3">
+            <div class="block-content">
+              <div class="fs-sm text-muted">${task.station}</div>
+              <div class="fw-semibold mb-1">${task.task}</div>
+              <div class="fs-sm">Operator: ${task.owner}</div>
+              <div class="fs-sm text-primary">ETA: ${task.eta}</div>
+            </div>
+          </div>
+        </div>`).join('');
+    </script>
+  </body>
+</html>
