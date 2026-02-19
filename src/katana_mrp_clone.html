@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>Katana MRP Clone | Codebase</title>
+    <title>Katana + FLSS Operations | Codebase</title>
     <link rel="shortcut icon" href="assets/media/favicons/favicon.png">
     <link rel="icon" type="image/png" sizes="192x192" href="assets/media/favicons/favicon-192x192.png">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/media/favicons/apple-touch-icon-180x180.png">
@@ -15,6 +15,13 @@
       .status-open { background: var(--bs-warning); }
       .status-progress { background: var(--bs-info); }
       .status-ready { background: var(--bs-success); }
+      .scan-card { border-left: 4px solid var(--bs-primary); }
+      .pulse-indicator { width: .75rem; height: .75rem; border-radius: 50%; background: var(--bs-success); box-shadow: 0 0 0 rgba(25, 135, 84, 0.7); animation: pulse 1.8s infinite; }
+      @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(25, 135, 84, 0.7); }
+        70% { box-shadow: 0 0 0 8px rgba(25, 135, 84, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(25, 135, 84, 0); }
+      }
     </style>
   </head>
   <body>
@@ -24,7 +31,7 @@
           <div class="content-header bg-black-10">
             <a class="fw-bold tracking-wide text-white" href="katana_mrp_clone.html">
               <i class="fa fa-industry text-primary me-1"></i>
-              Katana Clone
+              Ops Control Center
             </a>
             <button type="button" class="btn btn-sm btn-alt-danger d-lg-none" data-toggle="layout" data-action="sidebar_close">
               <i class="fa fa-times"></i>
@@ -33,12 +40,14 @@
           <div class="js-sidebar-scroll">
             <div class="content-side">
               <ul class="nav-main">
+                <li class="nav-main-heading">MRP</li>
                 <li class="nav-main-item"><a class="nav-main-link active" href="#overview"><i class="nav-main-link-icon fa fa-chart-line"></i><span class="nav-main-link-name">Overview</span></a></li>
                 <li class="nav-main-item"><a class="nav-main-link" href="#inventory"><i class="nav-main-link-icon fa fa-boxes-stacked"></i><span class="nav-main-link-name">Inventory</span></a></li>
                 <li class="nav-main-item"><a class="nav-main-link" href="#manufacturing"><i class="nav-main-link-icon fa fa-gears"></i><span class="nav-main-link-name">Manufacturing</span></a></li>
-                <li class="nav-main-item"><a class="nav-main-link" href="#purchasing"><i class="nav-main-link-icon fa fa-cart-plus"></i><span class="nav-main-link-name">Purchasing</span></a></li>
-                <li class="nav-main-item"><a class="nav-main-link" href="#sales"><i class="nav-main-link-icon fa fa-file-invoice-dollar"></i><span class="nav-main-link-name">Sales</span></a></li>
-                <li class="nav-main-item"><a class="nav-main-link" href="#shop-floor"><i class="nav-main-link-icon fa fa-list-check"></i><span class="nav-main-link-name">Shop Floor</span></a></li>
+                <li class="nav-main-item"><a class="nav-main-link" href="#orders"><i class="nav-main-link-icon fa fa-file-invoice-dollar"></i><span class="nav-main-link-name">Orders</span></a></li>
+                <li class="nav-main-heading">FLSS</li>
+                <li class="nav-main-item"><a class="nav-main-link" href="#flss-scan"><i class="nav-main-link-icon fa fa-barcode"></i><span class="nav-main-link-name">Scan Station</span></a></li>
+                <li class="nav-main-item"><a class="nav-main-link" href="#flss-board"><i class="nav-main-link-icon fa fa-table-columns"></i><span class="nav-main-link-name">Order Board</span></a></li>
               </ul>
             </div>
           </div>
@@ -51,9 +60,10 @@
             <button type="button" class="btn btn-alt-secondary me-1 d-lg-none" data-toggle="layout" data-action="sidebar_toggle">
               <i class="fa fa-bars"></i>
             </button>
-            <span class="fw-semibold">Katana-style Manufacturing ERP</span>
+            <span class="fw-semibold">Katana-style MRP + FLSS Execution Dashboard</span>
           </div>
-          <div>
+          <div class="d-flex gap-2">
+            <button class="btn btn-alt-primary"><i class="fa fa-barcode me-1"></i>Start Scan</button>
             <button class="btn btn-primary"><i class="fa fa-plus me-1"></i>New Production Order</button>
           </div>
         </div>
@@ -63,19 +73,20 @@
         <div class="content" id="overview">
           <div class="d-flex justify-content-between align-items-center mb-3">
             <h1 class="h3 mb-0">Operations Dashboard</h1>
-            <small class="text-muted">Live sandbox data</small>
+            <small class="text-muted">Demo data · refreshes on load</small>
           </div>
-          <div class="row">
-            <div class="col-md-3"><div class="block block-rounded"><div class="block-content block-content-full"><div class="fs-sm text-muted">MRP Alerts</div><div class="fs-2 fw-bold" id="kpi-alerts">0</div></div></div></div>
-            <div class="col-md-3"><div class="block block-rounded"><div class="block-content block-content-full"><div class="fs-sm text-muted">Open Manufacturing Orders</div><div class="fs-2 fw-bold" id="kpi-mos">0</div></div></div></div>
-            <div class="col-md-3"><div class="block block-rounded"><div class="block-content block-content-full"><div class="fs-sm text-muted">Late Sales Orders</div><div class="fs-2 fw-bold" id="kpi-late">0</div></div></div></div>
-            <div class="col-md-3"><div class="block block-rounded"><div class="block-content block-content-full"><div class="fs-sm text-muted">Inventory Value</div><div class="fs-2 fw-bold" id="kpi-value">$0</div></div></div></div>
+
+          <div class="row g-3 mb-2">
+            <div class="col-md-3"><div class="block block-rounded mb-0"><div class="block-content block-content-full"><div class="fs-sm text-muted">MRP Alerts</div><div class="fs-2 fw-bold" id="kpi-alerts">0</div></div></div></div>
+            <div class="col-md-3"><div class="block block-rounded mb-0"><div class="block-content block-content-full"><div class="fs-sm text-muted">Open Manufacturing Orders</div><div class="fs-2 fw-bold" id="kpi-mos">0</div></div></div></div>
+            <div class="col-md-3"><div class="block block-rounded mb-0"><div class="block-content block-content-full"><div class="fs-sm text-muted">FLSS Queue</div><div class="fs-2 fw-bold" id="kpi-queue">0</div></div></div></div>
+            <div class="col-md-3"><div class="block block-rounded mb-0"><div class="block-content block-content-full"><div class="fs-sm text-muted">Inventory Value</div><div class="fs-2 fw-bold" id="kpi-value">$0</div></div></div></div>
           </div>
 
           <div class="row" id="inventory">
             <div class="col-xl-7">
               <div class="block block-rounded">
-                <div class="block-header block-header-default"><h3 class="block-title">Inventory & Reorder Suggestions</h3></div>
+                <div class="block-header block-header-default"><h3 class="block-title">Inventory &amp; Reorder Suggestions</h3></div>
                 <div class="block-content">
                   <div class="table-responsive">
                     <table class="table table-striped table-vcenter">
@@ -86,6 +97,7 @@
                 </div>
               </div>
             </div>
+
             <div class="col-xl-5" id="manufacturing">
               <div class="block block-rounded">
                 <div class="block-header block-header-default"><h3 class="block-title">Production Timeline</h3></div>
@@ -94,25 +106,58 @@
             </div>
           </div>
 
-          <div class="row" id="purchasing">
+          <div class="row" id="orders">
             <div class="col-xl-6">
               <div class="block block-rounded">
                 <div class="block-header block-header-default"><h3 class="block-title">Purchase Orders</h3></div>
-                <div class="block-content"><div class="table-responsive"><table class="table table-bordered table-vcenter"><thead><tr><th>PO</th><th>Vendor</th><th>ETA</th><th>Status</th></tr></thead><tbody id="po-table"></tbody></table></div></div>
+                <div class="block-content">
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-vcenter">
+                      <thead><tr><th>PO</th><th>Vendor</th><th>ETA</th><th>Status</th></tr></thead>
+                      <tbody id="po-table"></tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="col-xl-6" id="sales">
+            <div class="col-xl-6">
               <div class="block block-rounded">
                 <div class="block-header block-header-default"><h3 class="block-title">Sales Orders</h3></div>
-                <div class="block-content"><div class="table-responsive"><table class="table table-bordered table-vcenter"><thead><tr><th>SO</th><th>Customer</th><th>Ship Date</th><th>Status</th></tr></thead><tbody id="so-table"></tbody></table></div></div>
+                <div class="block-content">
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-vcenter">
+                      <thead><tr><th>SO</th><th>Customer</th><th>Ship Date</th><th>Status</th></tr></thead>
+                      <tbody id="so-table"></tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="block block-rounded" id="shop-floor">
-            <div class="block-header block-header-default"><h3 class="block-title">Shop Floor Priorities</h3></div>
+          <div class="block block-rounded" id="flss-scan">
+            <div class="block-header block-header-default">
+              <h3 class="block-title">FLSS Scan Station Dashboard</h3>
+              <div class="block-options d-flex align-items-center gap-2">
+                <span class="pulse-indicator"></span>
+                <span class="fs-sm text-success">Scanner online</span>
+              </div>
+            </div>
             <div class="block-content">
-              <div class="row" id="shop-floor-cards"></div>
+              <div class="row g-3 mb-2" id="scan-metrics"></div>
+              <div class="table-responsive">
+                <table class="table table-striped table-vcenter">
+                  <thead><tr><th>Time</th><th>Station</th><th>Scan ID</th><th>Order</th><th>Result</th><th>Operator</th></tr></thead>
+                  <tbody id="scan-table"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="block block-rounded" id="flss-board">
+            <div class="block-header block-header-default"><h3 class="block-title">FLSS Order Board</h3></div>
+            <div class="block-content">
+              <div class="row" id="order-board-columns"></div>
             </div>
           </div>
         </div>
@@ -146,25 +191,41 @@
         { id: 'SO-5111', customer: 'Horizon Office', ship: '2026-02-25', status: 'In production' }
       ];
 
-      const shopFloor = [
-        { station: 'Cutting', task: 'Desk Frame batch #2041', owner: 'Marta P.', eta: '2h' },
-        { station: 'Assembly', task: 'Drawer Kit batch #2042', owner: 'Jules R.', eta: '4h' },
-        { station: 'Packing', task: 'SO-5109 prepack', owner: 'Sam N.', eta: '1h' }
+      const scanEvents = [
+        { time: '08:41', station: 'FLSS-01', scanId: 'SCN-903451', order: 'SO-5109', result: 'Accepted', operator: 'Jay T.' },
+        { time: '08:44', station: 'FLSS-02', scanId: 'SCN-903454', order: 'SO-5111', result: 'Mismatch', operator: 'Rina K.' },
+        { time: '08:48', station: 'FLSS-01', scanId: 'SCN-903458', order: 'SO-5103', result: 'Accepted', operator: 'Jay T.' },
+        { time: '08:50', station: 'FLSS-03', scanId: 'SCN-903461', order: 'SO-5114', result: 'Hold', operator: 'Moe L.' }
       ];
+
+      const orderBoard = {
+        queued: [
+          { order: 'SO-5115', sku: 'FG-DESK-900', qty: 12, priority: 'High' },
+          { order: 'SO-5116', sku: 'FG-LAMP-120', qty: 30, priority: 'Normal' }
+        ],
+        scanning: [
+          { order: 'SO-5109', sku: 'FG-DESK-900', qty: 8, priority: 'Rush' }
+        ],
+        exception: [
+          { order: 'SO-5111', sku: 'FG-DRAW-220', qty: 16, priority: 'Review' }
+        ],
+        cleared: [
+          { order: 'SO-5103', sku: 'FG-DESK-900', qty: 4, priority: 'Done' }
+        ]
+      };
 
       const reorderCount = inventory.filter((item) => item.onHand - item.allocated < item.safety).length;
       const inventoryValue = inventory.reduce((sum, item) => sum + item.onHand * item.unitCost, 0);
       document.getElementById('kpi-alerts').textContent = reorderCount;
       document.getElementById('kpi-mos').textContent = manufacturingOrders.length;
-      document.getElementById('kpi-late').textContent = salesOrders.filter((so) => so.status === 'Late').length;
+      document.getElementById('kpi-queue').textContent = orderBoard.queued.length + orderBoard.scanning.length;
       document.getElementById('kpi-value').textContent = `$${inventoryValue.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
 
-      const inventoryRows = inventory.map((item) => {
+      document.getElementById('inventory-table').innerHTML = inventory.map((item) => {
         const available = item.onHand - item.allocated;
         const reorder = Math.max(0, item.safety * 2 - available);
         return `<tr><td class="fw-semibold">${item.sku}</td><td>${item.onHand}</td><td>${item.allocated}</td><td>${item.safety}</td><td><span class="badge ${reorder > 0 ? 'bg-danger' : 'bg-success'}">${reorder}</span></td></tr>`;
       }).join('');
-      document.getElementById('inventory-table').innerHTML = inventoryRows;
 
       document.getElementById('timeline').innerHTML = manufacturingOrders.map((mo) => `
         <div class="timeline-item">
@@ -181,14 +242,52 @@
         return `<tr><td>${so.id}</td><td>${so.customer}</td><td>${so.ship}</td><td><span class="status-dot ${className} me-2"></span>${so.status}</td></tr>`;
       }).join('');
 
-      document.getElementById('shop-floor-cards').innerHTML = shopFloor.map((task) => `
-        <div class="col-md-4">
-          <div class="block block-rounded block-bordered mb-3">
+      const scanAccepted = scanEvents.filter((event) => event.result === 'Accepted').length;
+      const scanIssues = scanEvents.filter((event) => event.result !== 'Accepted').length;
+      const throughput = scanEvents.length * 15;
+      const metrics = [
+        { title: 'Scans this shift', value: scanEvents.length },
+        { title: 'Accepted scans', value: scanAccepted },
+        { title: 'Exceptions', value: scanIssues },
+        { title: 'Projected hourly throughput', value: `${throughput}/hr` }
+      ];
+      document.getElementById('scan-metrics').innerHTML = metrics.map((metric) => `
+        <div class="col-md-3">
+          <div class="block block-rounded scan-card mb-0">
+            <div class="block-content block-content-full">
+              <div class="fs-sm text-muted">${metric.title}</div>
+              <div class="fs-4 fw-semibold">${metric.value}</div>
+            </div>
+          </div>
+        </div>`).join('');
+
+      document.getElementById('scan-table').innerHTML = scanEvents.map((event) => {
+        const badge = event.result === 'Accepted' ? 'bg-success' : event.result === 'Mismatch' ? 'bg-danger' : 'bg-warning text-dark';
+        return `<tr><td>${event.time}</td><td>${event.station}</td><td>${event.scanId}</td><td>${event.order}</td><td><span class="badge ${badge}">${event.result}</span></td><td>${event.operator}</td></tr>`;
+      }).join('');
+
+      const columns = [
+        { id: 'queued', title: 'Queued', color: 'primary' },
+        { id: 'scanning', title: 'Scanning', color: 'info' },
+        { id: 'exception', title: 'Exception', color: 'warning' },
+        { id: 'cleared', title: 'Cleared', color: 'success' }
+      ];
+      document.getElementById('order-board-columns').innerHTML = columns.map((column) => `
+        <div class="col-lg-3 col-md-6">
+          <div class="block block-rounded block-bordered">
+            <div class="block-header block-header-default">
+              <h3 class="block-title">${column.title}</h3>
+              <span class="badge bg-${column.color}">${orderBoard[column.id].length}</span>
+            </div>
             <div class="block-content">
-              <div class="fs-sm text-muted">${task.station}</div>
-              <div class="fw-semibold mb-1">${task.task}</div>
-              <div class="fs-sm">Operator: ${task.owner}</div>
-              <div class="fs-sm text-primary">ETA: ${task.eta}</div>
+              ${orderBoard[column.id].map((card) => `
+                <div class="block block-rounded block-link-pop mb-3 border">
+                  <div class="block-content py-2">
+                    <div class="fw-semibold">${card.order}</div>
+                    <div class="fs-sm text-muted">${card.sku} · Qty ${card.qty}</div>
+                    <span class="badge bg-body-dark text-white mt-2">${card.priority}</span>
+                  </div>
+                </div>`).join('')}
             </div>
           </div>
         </div>`).join('');
