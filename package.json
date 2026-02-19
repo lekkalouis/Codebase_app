@@ -96,6 +96,11 @@
     "simplemde": "^1.11.2",
     "slick-carousel": "^1.8.1",
     "sweetalert2": "^11.26.3",
-    "vide": "^0.5.1"
+    "vide": "^0.5.1",
+    "cors": "^2.8.5"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
   }
 }
