@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FLSS Operations</title>
+    <style>
+      body { font-family: Inter, system-ui, sans-serif; margin: 0; background: #0f172a; color: #e2e8f0; }
+      .app { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+      nav { background: #111827; padding: 20px; }
+      nav h1 { font-size: 16px; margin: 0 0 16px; }
+      nav a { display: block; color: #93c5fd; text-decoration: none; padding: 8px 0; }
+      nav a.active { color: #fff; font-weight: 700; }
+      main { padding: 24px; }
+      .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+      .card { background: #1e293b; border-radius: 10px; padding: 14px; }
+      .muted { color: #94a3b8; }
+      code { background: #334155; padding: 2px 6px; border-radius: 6px; }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <nav id="sidebar"></nav>
+      <main>
+        <h2 id="title"></h2>
+        <p class="muted" id="description"></p>
+        <section class="cards" id="cards"></section>
+      </main>
+    </div>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
