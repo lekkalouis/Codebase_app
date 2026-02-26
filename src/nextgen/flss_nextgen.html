@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en" class="remember-theme">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>FLSS NextGen | Codebase</title>
+    <link rel="shortcut icon" href="../assets/media/favicons/favicon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../assets/media/favicons/favicon-192x192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/media/favicons/apple-touch-icon-180x180.png">
+    <link rel="stylesheet" id="css-main" href="../assets/css/codebase.min.css">
+    <script src="../assets/js/setTheme.js"></script>
+    <style>
+      .nextgen-toolbar { position: sticky; top: 58px; z-index: 9; }
+      .drawer-tabs .nav-link { font-size: .8rem; }
+    </style>
+  </head>
+  <body>
+    <div id="page-container" class="sidebar-o sidebar-dark enable-page-overlay side-scroll page-header-fixed main-content-boxed">
+      <nav id="sidebar" aria-label="Primary Navigation">
+        <div class="sidebar-content">
+          <div class="content-header bg-black-10">
+            <a class="fw-bold tracking-wide text-white" href="flss_nextgen.html">
+              <i class="fa fa-cubes-stacked text-primary me-1"></i>
+              FLSS NextGen
+            </a>
+            <button type="button" class="btn btn-sm btn-alt-danger d-lg-none" data-toggle="layout" data-action="sidebar_close">
+              <i class="fa fa-times"></i>
+            </button>
+          </div>
+          <div class="js-sidebar-scroll">
+            <div class="content-side">
+              <ul class="nav-main">
+                <li class="nav-main-heading">FLSS OS</li>
+                <li class="nav-main-item">
+                  <a class="nav-main-link" href="../katana_mrp_clone.html">
+                    <i class="nav-main-link-icon fa fa-arrow-left"></i>
+                    <span class="nav-main-link-name">Back to Current FLSS</span>
+                  </a>
+                </li>
+                <li class="nav-main-heading">NextGen</li>
+                <li id="nextgen-nav-anchor"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <header id="page-header">
+        <div class="content-header">
+          <div>
+            <button type="button" class="btn btn-alt-secondary me-1 d-lg-none" data-toggle="layout" data-action="sidebar_toggle">
+              <i class="fa fa-bars"></i>
+            </button>
+            <span class="fw-semibold">FLSS NextGen Company OS Dashboard</span>
+          </div>
+          <div class="d-flex gap-2">
+            <button class="btn btn-alt-secondary" data-toggle="layout" data-action="sidebar_mini_toggle"><i class="fa fa-arrows-left-right"></i></button>
+            <button id="secondary-action" class="btn btn-alt-primary"><i class="fa fa-truck me-1"></i>Book</button>
+            <button id="primary-action" class="btn btn-primary"><i class="fa fa-plus me-1"></i>Create</button>
+          </div>
+        </div>
+      </header>
+
+      <main id="main-container">
+        <div class="content">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <h1 class="h3 mb-0" id="view-title">Overview</h1>
+              <p class="text-muted mb-0" id="view-desc"></p>
+            </div>
+            <div id="coming-soon-ribbon"></div>
+          </div>
+
+          <div class="row g-3 mb-3" id="kpi-cards"></div>
+
+          <div class="block block-rounded nextgen-toolbar">
+            <div class="block-content py-3">
+              <div class="row g-2 align-items-center">
+                <div class="col-md-5"><input id="table-filter" type="search" class="form-control" placeholder="Search records, IDs, tags, statuses"></div>
+                <div class="col-md-7 d-flex justify-content-md-end gap-2">
+                  <button id="print-action" class="btn btn-alt-secondary"><i class="fa fa-print me-1"></i>Print</button>
+                  <button id="export-action" class="btn btn-alt-success"><i class="fa fa-file-export me-1"></i>Export</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="block block-rounded">
+            <div class="block-header block-header-default"><h3 class="block-title">Operational Dataset</h3></div>
+            <div class="block-content">
+              <div class="table-responsive">
+                <table class="table table-vcenter table-striped fs-sm">
+                  <thead><tr id="data-head"></tr></thead>
+                  <tbody id="data-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="nextgenDrawer" aria-labelledby="nextgenDrawerLabel">
+      <div class="offcanvas-header">
+        <h5 id="nextgenDrawerLabel">Record Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="nav nav-tabs drawer-tabs mb-3" role="tablist">
+          <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#tab-summary">Summary</a></li>
+          <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-items">Items</a></li>
+          <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-packing">Packing</a></li>
+          <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-shipping">Shipping</a></li>
+          <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-notes">Notes</a></li>
+          <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-events">Events</a></li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="tab-summary"><div id="detail-content"></div></div>
+          <div class="tab-pane fade" id="tab-items"><p class="text-muted">Items and BOM associations (mock).</p></div>
+          <div class="tab-pane fade" id="tab-packing"><p class="text-muted">Pack instructions, parcel splits and SSCC labels (mock).</p></div>
+          <div class="tab-pane fade" id="tab-shipping"><p class="text-muted">Carrier, bookings, tracking events and manifesting (mock).</p></div>
+          <div class="tab-pane fade" id="tab-notes"><p class="text-muted">Internal notes, QA comments and approvals (mock).</p></div>
+          <div class="tab-pane fade" id="tab-events"><p class="text-muted">Chronological event log and traceability timeline (mock).</p></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/codebase.app.min.js"></script>
+    <script src="../assets/js/pages/flss_nextgen_data.js"></script>
+    <script src="../assets/js/pages/flss_nextgen.js"></script>
+  </body>
+</html>
